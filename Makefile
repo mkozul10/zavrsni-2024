@@ -32,3 +32,4 @@ logs: ## Show logs
 
 app-logs: ## Show app logs
 	$(DOCKER_COMPOSE) logs app -f
+.PHONY: app-logs
