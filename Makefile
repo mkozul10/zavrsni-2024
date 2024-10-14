@@ -17,7 +17,7 @@ stop: ## Stop containers
 	$(DOCKER_COMPOSE) down
 .PHONY: stop
 
-stopv: ## Stop containers and remove all associated volumes
+hard_stop: ## Stop containers and remove all associated volumes
 	$(DOCKER_COMPOSE) down -v
 .PHONY: stop
 
