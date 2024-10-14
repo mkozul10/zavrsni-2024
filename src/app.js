@@ -1,5 +1,4 @@
 import express from 'express';
-import { render } from 'ejs';
 import morgan from 'morgan';
 import { connectToDb, getDb } from './db.js';
 import multer from 'multer';
@@ -7,12 +6,11 @@ import path from 'path';
 import { ObjectId } from 'mongodb';
 import {unlink} from 'fs';
 import { fileURLToPath } from 'url';
-import { dirname } from 'path';
 import { configuration } from './configuration.js';
 
 
 const __filename = fileURLToPath(import.meta.url);
-const __dirname = dirname(__filename);
+const __dirname = path.dirname(__filename);
 
 let CUR_FILE_NAME;
 const app = express();
@@ -106,7 +104,7 @@ app.post('/', upload.single('image') ,async (req, res) => {
     newItem.file = CUR_FILE_NAME;
     
     try{
-        const result = await db.collection(configuration.mongoCollection)
+        await db.collection(configuration.mongoCollection)
             .insertOne(newItem)
         res.status(200).redirect('/');
     } catch (err) {
@@ -135,7 +133,7 @@ app.delete('/:id', async (req,res) => {
             const part = await db.collection(configuration.mongoCollection)
                 .findOne({_id: new ObjectId(req.params.id)})
 
-            const result = await db.collection(configuration.mongoCollection)
+            await db.collection(configuration.mongoCollection)
                 .deleteOne({_id: new ObjectId(req.params.id)})
             res.status(200).json({redirect: '/'});
             unlink(`src/public/${part.file}`, (err) => {
