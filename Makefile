@@ -25,3 +25,10 @@ restart: ## Restart running containers
 	make stop && make start
 	
 .PHONY: restart
+
+logs: ## Show logs
+	$(DOCKER_COMPOSE) logs -f
+.PHONY: logs
+
+app-logs: ## Show app logs
+	$(DOCKER_COMPOSE) logs app -f
